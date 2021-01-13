@@ -4,14 +4,19 @@ from os import listdir
 
 user = os.getlogin()
 
+#######################  VERIFICANDO O SISTEMA OPERACIONAL  #################################
+
+windows = False
+
 system = os.name  
 
+if system == 'nt':
+    windows = True
 
-#######################  VERIFICANDO O SISTEMA OPERACIONAL  #################################
 
 if system == 'posix':
 
-    ####################### Verificando o idioma do sistema ###############################
+    ####################### Verificando o idioma do sistema Linux ###############################
 
     if os.getenv('LANG') == 'pt_BR.UTF-8':    
 
@@ -29,14 +34,14 @@ if system == 'posix':
         VIDEOS_DIR = f"/home/{user}/Videos/"
 else:
 
-    DOWNLOADS_DIR = f"C:/Users/{user}/Downloads/"
+    DOWNLOADS_DIR = f"C:\\Users\\{user}\\Downloads\\"
 
-    IMAGENS_DIR = f"C:/Users/{user}/Pictures/"
+    IMAGENS_DIR = f"C:\\Users\\{user}\\Pictures\\"
 
-    VIDEOS_DIR = f"C:/Users/{user}/Videos/"
+    VIDEOS_DIR = f"C:\\Users\\{user}\\Videos\\"
 
 
-###################### Percorrendo os arquivos ########################################
+########################## Percorrendo os arquivos ########################################
 
 
 files = listdir(DOWNLOADS_DIR)
@@ -46,13 +51,19 @@ cont = 0
 for i in range(len(files)):
     if files[i].endswith('.jpg') or files[i].endswith('.png') or files[i].endswith('.gif'):
         caminho_arquivo = os.path.join(DOWNLOADS_DIR, files[i])
-        os.system(f"mv {caminho_arquivo} {IMAGENS_DIR}")
+        if windows:
+            os.system(f"move {caminho_arquivo} {IMAGENS_DIR}")
+        else:
+            os.system(f"mv {caminho_arquivo} {IMAGENS_DIR}")
         print(f"{files[i]} movido!")
         cont += 1
     
     elif files[i].endswith('.mp4') or files[i].endswith('.mkv'):
         caminho_arquivo = os.path.join(DOWNLOADS_DIR, files[i])
-        os.system(f"mv {caminho_arquivo} {VIDEOS_DIR}")
+        if windows:
+            os.system(f"move {caminho_arquivo} {VIDEOS_DIR}")
+        else:
+            os.system(f"mv {caminho_arquivo} {VIDEOS_DIR}")
         print(f"{files[i]} movido!")
         cont += 1
 
